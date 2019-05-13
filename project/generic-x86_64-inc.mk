@@ -13,4 +13,25 @@
 # limitations under the License.
 #
 
-include project/generic-x86_64-inc.mk
+LOCAL_DIR := $(GET_LOCAL_DIR)
+
+ARCH := x86
+SUBARCH := x86-64
+TARGET := generic-x86_64
+
+WITH_LINKER_GC := 1
+
+TRUSTY_USER_ARCH := x86
+
+# Limit heap grows
+GLOBAL_DEFINES += HEAP_GROW_SIZE=8192
+
+WITH_TRUSTY_IPC := true
+
+# On generic-x86_64 hwcrypto requires FAKE HWRNG and HWKEY services
+WITH_FAKE_HWRNG ?= true
+WITH_FAKE_HWKEY ?= true
+
+ASLR ?= false
+
+EXTRA_BUILDRULES += trusty/kernel/app/trusty/user-tasks.mk
